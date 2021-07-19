@@ -1,13 +1,47 @@
 import React from "react";
 
 function App() {
+  const [fullName, setFullName] = React.useState({
+    fName: "",
+    lNAme: ""
+  });
+
+  function handleSubmit(event) {
+    const { value, name } = event.target;
+    setFullName((prevValue) => {
+      if (name === "fName") {
+        return {
+          fName: value,
+          lName: prevValue.lName
+        };
+      } else if (name === "lName") {
+        return {
+          fName: prevValue.fName,
+          lName: value
+        };
+      }
+    });
+  }
+
   return (
     <div className="container">
-      <h1>Hello</h1>
+      <h1>
+        Hello {fullName.fName} {fullName.lName}
+      </h1>
       <form>
-        <input name="fName" placeholder="First Name" />
-        <input name="lName" placeholder="Last Name" />
-        <button>Submit</button>
+        <input
+          name="fName"
+          onChange={handleSubmit}
+          placeholder="First Name"
+          value={fullName.fName}
+        />
+        <input
+          name="lName"
+          onChange={handleSubmit}
+          placeholder="Last Name"
+          value={fullName.lName}
+        />
+        <button onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );
